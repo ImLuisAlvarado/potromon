@@ -11,12 +11,27 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import com.google.gson.Gson;
 
     /**
      * Lista para apartado de info de los Potromons.
      */
 
 public class Potromon {
+
+    /**
+     * @return the imagen
+     */
+    public byte[] getImagen() {
+        return imagen;
+    }
+
+    /**
+     * @param imagen the imagen to set
+     */
+    public void setImagen(byte[] imagen) {
+        this.imagen = imagen;
+    }
 
     /**
      * @return the entrenador
@@ -31,7 +46,21 @@ public class Potromon {
     public void setEntrenador(String entrenador) {
         this.entrenador = entrenador;
     }
-
+    /**
+     * Deserializes a JSON string into a Delidelivery object.
+     * @param json the JSON string to deserialize
+     * @return the deserialized Delidelivery object
+     **/
+    public Potromon deserialize (String json){
+        Potromon delidelivery = new Potromon();
+        try{
+             delidelivery = new Gson().fromJson(json, Potromon.class);
+        }catch(Exception ex){
+            System.err.println("Couldn't deserialize because of an error"+(ex.getMessage()));
+    }
+        return delidelivery;
+}
+    
     public static List<Potromon> getAll(){
         List<Potromon> potromones = new ArrayList<>();
         try {
@@ -252,4 +281,5 @@ public class Potromon {
     private String ciudad;
     private String descripcion;
     private String entrenador;
+    private byte[] imagen;
 }
