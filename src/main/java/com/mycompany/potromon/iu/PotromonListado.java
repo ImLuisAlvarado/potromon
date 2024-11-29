@@ -42,13 +42,13 @@ public class PotromonListado extends javax.swing.JFrame {
 
         tblPotromones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Nombre", "Apodo", "Genero", "Tipo", "Puntaje", "Entrenador"
             }
         ));
         jScrollPane1.setViewportView(tblPotromones);
@@ -59,15 +59,15 @@ public class PotromonListado extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(109, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(58, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(35, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(119, Short.MAX_VALUE))
         );
 
         pack();
@@ -76,6 +76,7 @@ public class PotromonListado extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         cargarTable();
+        tblPotromones.removeColumn(tblPotromones.getColumnModel().getColumn(0));
     }//GEN-LAST:event_formWindowOpened
 
     private void cargarTable(){
@@ -89,11 +90,8 @@ public class PotromonListado extends javax.swing.JFrame {
                 p.getApodo(),
                 p.getGenero(),
                 p.getTipo(),
-                p.getDescripcion(),
-                p.getCiudad(),
-                p.getAltura(),
-                p.getPeso(),
-                p.getPuntajeBatalla()
+                p.getPuntajeBatalla(),
+                p.getEntrenador()
             });
         }
     }
