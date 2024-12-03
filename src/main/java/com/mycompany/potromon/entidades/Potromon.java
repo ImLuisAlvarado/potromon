@@ -130,6 +130,23 @@ public class Potromon {
         return p;
     }
     
+        public static boolean delete(int id){
+        boolean resultado = false;
+        try{
+            Connection conexion = Conexion.obtener();
+            String consulta = "DELETE FROM Potromon WHERE id_potromon=?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setInt(1, id);
+            
+            statement.execute();
+            resultado = statement.getUpdateCount() == 1;
+            conexion.close();
+        }catch(Exception ex){
+            System.err.println("Ocurrió un error: " + ex.getMessage());
+        }
+        return resultado;
+    }
+    
     
     /**
      * @return the id

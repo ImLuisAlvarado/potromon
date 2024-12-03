@@ -6,6 +6,7 @@ package com.mycompany.potromon.iu;
 
 import com.mycompany.potromon.entidades.Potromon;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -34,6 +35,7 @@ public class PotromonListado extends javax.swing.JFrame {
         tblPotromones = new javax.swing.JTable();
         btnAgregar = new javax.swing.JButton();
         btnInformacion = new javax.swing.JButton();
+        buttonEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -64,6 +66,13 @@ public class PotromonListado extends javax.swing.JFrame {
 
         btnInformacion.setText("Más información...");
 
+        buttonEliminar.setText("Eliminar");
+        buttonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -76,6 +85,8 @@ public class PotromonListado extends javax.swing.JFrame {
                         .addContainerGap(234, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(buttonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(btnAgregar)
                         .addGap(18, 18, 18)
                         .addComponent(btnInformacion)
@@ -89,7 +100,8 @@ public class PotromonListado extends javax.swing.JFrame {
                 .addGap(75, 75, 75)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnInformacion)
-                    .addComponent(btnAgregar))
+                    .addComponent(btnAgregar)
+                    .addComponent(buttonEliminar))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -108,6 +120,63 @@ public class PotromonListado extends javax.swing.JFrame {
         form.setVisible(true);
         
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void buttonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEliminarActionPerformed
+       // TODO add your handling code here:
+       // Obtener la fila seleccionada
+    int renglon = tblPotromones.getSelectedRow();
+
+    // Validar si se ha seleccionado una fila
+    if (renglon == -1) {
+        JOptionPane.showMessageDialog(this, 
+                "Por favor, selecciona un registro para eliminar.",
+                "Error", 
+                JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    try {
+        // Obtener el ID del Potromon desde la columna 0 de la fila seleccionada
+        int idPotromon = Integer.parseInt(tblPotromones.getModel().getValueAt(renglon, 0).toString());
+
+        // Confirmar la eliminación
+        int confirmacion = JOptionPane.showConfirmDialog(this, 
+                "¿Está seguro que desea eliminar el registro?", 
+                "Eliminar", 
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            // Llamar al método de eliminación
+            if (Potromon.delete(idPotromon)) {
+                JOptionPane.showMessageDialog(this, 
+                        "El registro se eliminó con éxito.",
+                        "Registro eliminado", 
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                // Recargar la tabla
+                cargarTable();
+            } else {
+                JOptionPane.showMessageDialog(this, 
+                        "Ocurrió un error al eliminar el registro.",
+                        "Error", 
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    } catch (NumberFormatException e) {
+        // Manejo de error si el valor de la columna 0 no es un número válido
+        JOptionPane.showMessageDialog(this, 
+                "El valor del ID no es válido.",
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+    } catch (Exception e) {
+        // Manejo de errores inesperados
+        JOptionPane.showMessageDialog(this, 
+                "Ocurrió un error inesperado: " + e.getMessage(),
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
+    }//GEN-LAST:event_buttonEliminarActionPerformed
 
     private void cargarTable(){
         List<Potromon> potromones = Potromon.getAll();
@@ -166,6 +235,7 @@ public class PotromonListado extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnInformacion;
+    private javax.swing.JButton buttonEliminar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblPotromones;
     // End of variables declaration//GEN-END:variables
