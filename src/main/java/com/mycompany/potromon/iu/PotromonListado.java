@@ -36,6 +36,7 @@ public class PotromonListado extends javax.swing.JFrame {
         btnAgregar = new javax.swing.JButton();
         btnInformacion = new javax.swing.JButton();
         buttonEliminar = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -73,6 +74,13 @@ public class PotromonListado extends javax.swing.JFrame {
             }
         });
 
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -85,6 +93,8 @@ public class PotromonListado extends javax.swing.JFrame {
                         .addContainerGap(234, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(buttonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnAgregar)
@@ -101,7 +111,8 @@ public class PotromonListado extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnInformacion)
                     .addComponent(btnAgregar)
-                    .addComponent(buttonEliminar))
+                    .addComponent(buttonEliminar)
+                    .addComponent(btnEditar))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -116,7 +127,7 @@ public class PotromonListado extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
-        PotromonForm form = new PotromonForm(this, true);
+        PotromonForm form = new PotromonForm(this, true, 0);
         form.setVisible(true);
         
     }//GEN-LAST:event_btnAgregarActionPerformed
@@ -178,6 +189,17 @@ public class PotromonListado extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_buttonEliminarActionPerformed
 
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+        int renglon = tblPotromones.getSelectedRow();
+        int idPotromon = Integer.parseInt(tblPotromones.getModel().getValueAt(renglon, 0).toString());
+        
+        PotromonForm form = new PotromonForm(this, true, idPotromon);
+        form.setVisible(true);
+        
+        cargarTable();
+    }//GEN-LAST:event_btnEditarActionPerformed
+
     private void cargarTable(){
         List<Potromon> potromones = Potromon.getAll();
         DefaultTableModel modeloTabla = (DefaultTableModel)tblPotromones.getModel();
@@ -234,6 +256,7 @@ public class PotromonListado extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnInformacion;
     private javax.swing.JButton buttonEliminar;
     private javax.swing.JScrollPane jScrollPane1;

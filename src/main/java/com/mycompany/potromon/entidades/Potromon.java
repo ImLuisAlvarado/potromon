@@ -146,7 +146,29 @@ public class Potromon {
         }
         return resultado;
     }
-    
+    public static boolean edit(int id, String nombre, String puesto){
+        boolean resultado = false;
+        try{
+            Connection conexion = Conexion.obtener();
+            String consulta = ("SELECT p.id_potromon, p.nombre AS nombre, p.apodo AS apodo, g.genero AS genero, " +
+            "p.tipo AS tipo, p.altura AS altura, p.peso AS peso, p.puntaje_batalla AS puntaje_batalla, " +
+            "p.ciudad AS ciudad, p.descripcion AS descripcion, e.nombre AS entrenador " +
+            "FROM Potromon p " +
+            "JOIN Genero g ON p.genero = g.id_genero "+
+            "JOIN Entrenador e ON p.entrenador = e.id_entrenador "+"WHERE id_potromon = ?");
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setString(1, nombre);
+            statement.setString(2, puesto);
+            statement.setInt(3, id);
+            
+            statement.execute();
+            resultado = statement.getUpdateCount() == 1;
+            conexion.close();
+        }catch(Exception ex){
+            System.err.println("Ocurrió un error: " + ex.getMessage());
+        }
+        return resultado;
+    }
     
     /**
      * @return the id

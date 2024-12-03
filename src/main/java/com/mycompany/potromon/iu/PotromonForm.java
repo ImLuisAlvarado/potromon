@@ -15,15 +15,30 @@ import javax.swing.JFileChooser;
  * @author ramon
  */
 public class PotromonForm extends javax.swing.JDialog {
-
+    int id;
     /**
      * Creates new form PotromonForm
      */
-    public PotromonForm(java.awt.Frame parent, boolean modal) {
+    public PotromonForm(java.awt.Frame parent, boolean modal, int id) {
         super(parent, modal);
         initComponents();
+        
+        this.id = id;
+        if(id != 0){
+            Potromon p = Potromon.getById(id);
+            txtNombre.setText(p.getNombre());
+            txtApodo.setText(p.getApodo());
+            txtGenero.setText(p.getGenero());
+            txtTipo.setText(p.getTipo());
+            //txtAltura.setText(p.getAltura());
+            //txtPeso.setText(p.getPeso());
+            //txtPuntajeBatalla.setText(p.getPuntajeBatalla());
+            txtCiudad.setText(p.getCiudad());
+            txtDescripcion.setText(p.getDescripcion());
+            txtEntrenador.setText(p.getEntrenador());
+        }
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,14 +48,30 @@ public class PotromonForm extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        btnOk = new javax.swing.JButton();
+        txtNombre = new javax.swing.JTextField();
+        txtApodo = new javax.swing.JTextField();
+        txtGenero = new javax.swing.JTextField();
+        txtTipo = new javax.swing.JTextField();
+        txtAltura = new javax.swing.JTextField();
+        txtPeso = new javax.swing.JTextField();
+        txtPuntajeBatalla = new javax.swing.JTextField();
+        txtCiudad = new javax.swing.JTextField();
+        txtDescripcion = new javax.swing.JTextField();
+        txtEntrenador = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnOk.setText("OK");
+        btnOk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnOkActionPerformed(evt);
+            }
+        });
+
+        txtApodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtApodoActionPerformed(evt);
             }
         });
 
@@ -49,22 +80,56 @@ public class PotromonForm extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(294, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addContainerGap(320, Short.MAX_VALUE)
+                .addComponent(btnOk)
                 .addGap(31, 31, 31))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtNombre)
+                    .addComponent(txtApodo)
+                    .addComponent(txtGenero)
+                    .addComponent(txtTipo)
+                    .addComponent(txtAltura)
+                    .addComponent(txtPeso)
+                    .addComponent(txtPuntajeBatalla)
+                    .addComponent(txtCiudad)
+                    .addComponent(txtDescripcion)
+                    .addComponent(txtEntrenador, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(240, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(37, 37, 37))
+                .addContainerGap()
+                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtApodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtAltura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtPuntajeBatalla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addComponent(btnOk)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
         // TODO add your handling code here:
         try{
             JFileChooser fileChooser = new JFileChooser();
@@ -80,7 +145,11 @@ public class PotromonForm extends javax.swing.JDialog {
         }catch(Exception ex){
             System.err.println("Ocurrió un error" + ex.getMessage());
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnOkActionPerformed
+
+    private void txtApodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApodoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtApodoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -112,7 +181,7 @@ public class PotromonForm extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                PotromonForm dialog = new PotromonForm(new javax.swing.JFrame(), true);
+                PotromonForm dialog = new PotromonForm(new javax.swing.JFrame(), true, 0);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -125,6 +194,16 @@ public class PotromonForm extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnOk;
+    private javax.swing.JTextField txtAltura;
+    private javax.swing.JTextField txtApodo;
+    private javax.swing.JTextField txtCiudad;
+    private javax.swing.JTextField txtDescripcion;
+    private javax.swing.JTextField txtEntrenador;
+    private javax.swing.JTextField txtGenero;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtPeso;
+    private javax.swing.JTextField txtPuntajeBatalla;
+    private javax.swing.JTextField txtTipo;
     // End of variables declaration//GEN-END:variables
 }
