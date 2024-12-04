@@ -29,7 +29,12 @@ public class PotromonForm extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
-        
+     
+
+    List<Genero> generos = Genero.getAll();
+            for (Genero g : generos) {
+                cmbGeneros.addItem(g.toString());
+
         this.id = id;
         
         if(id != 0){
@@ -44,25 +49,21 @@ public class PotromonForm extends javax.swing.JDialog {
             txtDescripcion.setText(p.getDescripcion());
             txtHabilidadPrincipal.setText(p.getHabilidadPrincipal());
             txtHabilidadSecundaria.setText(p.getHabilidadSecundaria());
-
+            
             List<Entrenador> entrenadores = Entrenador.getAll();
             for (Entrenador e : entrenadores) {
-                cmbEntrenadores.addItem(e.getNombre());
+//                cmbEntrenadores.addItem(e);   
+                cmbEntrenadores.setSelectedItem(p.getEntrenador());;
 
-                if (p.getEntrenador() != null && e.getId() == p.getEntrenador().getId()) {
-                    cmbEntrenadores.setSelectedItem(e);
+                if (g.getId() == p.getIdGenero()){
+                    cmbGeneros.setSelectedItem(g.getId());
     }
 }
     
-            List<Genero> generos = Genero.getAll();
-            for (Genero g : generos) {
-                cmbGeneros.addItem(g.toString());
-                if (g.getId() == p.getIdGenero()){
-                    cmbGeneros.setSelectedItem(g);
+            
         }
             }
         }
-    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -364,6 +365,8 @@ public class PotromonForm extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnOkActionPerformed
 
+    
+    
     private void txtApodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApodoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtApodoActionPerformed

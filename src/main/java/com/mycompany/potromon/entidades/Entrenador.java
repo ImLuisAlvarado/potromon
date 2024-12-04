@@ -19,19 +19,18 @@ import java.util.List;
 public class Entrenador {
 
     /**
-     * @return the genero
+     * @return the idGenero
      */
-    public String getGenero() {
-        return genero;
+    public int getIdGenero() {
+        return idGenero;
     }
 
     /**
-     * @param genero the genero to set
+     * @param idGenero the idGenero to set
      */
-    public void setGenero(String genero) {
-        this.genero = genero;
+    public void setIdGenero(int idGenero) {
+        this.idGenero = idGenero;
     }
-
     
     public static List<Entrenador> getAll(){
         List<Entrenador> entrenadores = new ArrayList<>();
@@ -49,7 +48,7 @@ public class Entrenador {
                 e.setId(rs.getInt("id_entrenador"));
                 e.setNombre(rs.getString("nombre"));
                 e.setApodo(rs.getString("apodo"));
-                e.setGenero(rs.getString("genero"));
+                //e.setGenero(rs.getString("genero"));
                 
                 
                 entrenadores.add(e);
@@ -76,7 +75,7 @@ public class Entrenador {
                 e.setId(rs.getInt("id_entrenador"));
                 e.setNombre(rs.getString("nombre"));
                 e.setApodo(rs.getString("apodo"));
-                e.setGenero(rs.getString("genero"));
+                //e.setGenero(rs.getString("genero"));
             }
         } catch (Exception ex) {
             System.err.println("Ocurrió un error: " + ex.getMessage());
@@ -208,5 +207,5 @@ public class Entrenador {
         private int id;
 	private String nombre;
 	private String apodo;
-	private String genero;
+	private int idGenero;
 }
