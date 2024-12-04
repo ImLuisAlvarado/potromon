@@ -4,11 +4,15 @@
  */
 package com.mycompany.potromon.iu;
 
+import com.mycompany.potromon.entidades.Entrenador;
+import com.mycompany.potromon.entidades.Genero;
 import com.mycompany.potromon.entidades.Potromon;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.List;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,6 +20,8 @@ import javax.swing.JFileChooser;
  */
 public class PotromonForm extends javax.swing.JDialog {
     int id;
+    private boolean modoEditar;
+    int puntajeBatalla;
     /**
      * Creates new form PotromonForm
      */
@@ -23,19 +29,38 @@ public class PotromonForm extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
+        
         this.id = id;
+        
         if(id != 0){
             Potromon p = Potromon.getById(id);
             txtNombre.setText(p.getNombre());
             txtApodo.setText(p.getApodo());
-            txtGenero.setText(p.getGenero());
             txtTipo.setText(p.getTipo());
-            //txtAltura.setText(p.getAltura());
-            //txtPeso.setText(p.getPeso());
-            //txtPuntajeBatalla.setText(p.getPuntajeBatalla());
+            txtAltura.setText(String.valueOf(p.getAltura()));
+            txtPeso.setText(String.valueOf(p.getPeso()));
+            txtPuntajeBatalla.setText(String.valueOf(p.getPuntajeBatalla()));
             txtCiudad.setText(p.getCiudad());
             txtDescripcion.setText(p.getDescripcion());
-            txtEntrenador.setText(p.getEntrenador());
+            txtHabilidadPrincipal.setText(p.getHabilidadPrincipal());
+            txtHabilidadSecundaria.setText(p.getHabilidadSecundaria());
+
+            List<Entrenador> entrenadores = Entrenador.getAll();
+            for (Entrenador e : entrenadores) {
+                cmbEntrenadores.addItem(e.getNombre());
+
+                if (p.getEntrenador() != null && e.getId() == p.getEntrenador().getId()) {
+                    cmbEntrenadores.setSelectedItem(e);
+    }
+}
+    
+            List<Genero> generos = Genero.getAll();
+            for (Genero g : generos) {
+                cmbGeneros.addItem(g.toString());
+                if (g.getId() == p.getIdGenero()){
+                    cmbGeneros.setSelectedItem(g);
+        }
+            }
         }
     }
     
@@ -51,14 +76,28 @@ public class PotromonForm extends javax.swing.JDialog {
         btnOk = new javax.swing.JButton();
         txtNombre = new javax.swing.JTextField();
         txtApodo = new javax.swing.JTextField();
-        txtGenero = new javax.swing.JTextField();
         txtTipo = new javax.swing.JTextField();
         txtAltura = new javax.swing.JTextField();
         txtPeso = new javax.swing.JTextField();
         txtPuntajeBatalla = new javax.swing.JTextField();
         txtCiudad = new javax.swing.JTextField();
         txtDescripcion = new javax.swing.JTextField();
-        txtEntrenador = new javax.swing.JTextField();
+        lblNombre = new javax.swing.JLabel();
+        lblApodo = new javax.swing.JLabel();
+        lblTipo = new javax.swing.JLabel();
+        lblAltura = new javax.swing.JLabel();
+        lblPeso = new javax.swing.JLabel();
+        lblPuntajeCombate = new javax.swing.JLabel();
+        lblCiudad = new javax.swing.JLabel();
+        lblDescripcion = new javax.swing.JLabel();
+        lblEntrenador = new javax.swing.JLabel();
+        cmbEntrenadores = new javax.swing.JComboBox<>();
+        lblGenero = new javax.swing.JLabel();
+        cmbGeneros = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        txtHabilidadPrincipal = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtHabilidadSecundaria = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -69,9 +108,86 @@ public class PotromonForm extends javax.swing.JDialog {
             }
         });
 
+        txtNombre.setFont(new java.awt.Font("Liberation Sans", 2, 14)); // NOI18N
+        txtNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreActionPerformed(evt);
+            }
+        });
+
+        txtApodo.setFont(new java.awt.Font("Liberation Sans", 2, 14)); // NOI18N
         txtApodo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtApodoActionPerformed(evt);
+            }
+        });
+
+        txtTipo.setFont(new java.awt.Font("Liberation Sans", 2, 14)); // NOI18N
+
+        txtAltura.setFont(new java.awt.Font("Liberation Sans", 2, 14)); // NOI18N
+
+        txtPeso.setFont(new java.awt.Font("Liberation Sans", 2, 14)); // NOI18N
+
+        txtPuntajeBatalla.setFont(new java.awt.Font("Liberation Sans", 2, 14)); // NOI18N
+        txtPuntajeBatalla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPuntajeBatallaActionPerformed(evt);
+            }
+        });
+
+        txtCiudad.setFont(new java.awt.Font("Liberation Sans", 2, 14)); // NOI18N
+
+        txtDescripcion.setFont(new java.awt.Font("Liberation Sans", 2, 14)); // NOI18N
+
+        lblNombre.setFont(new java.awt.Font("Liberation Sans", 3, 18)); // NOI18N
+        lblNombre.setText("Nombre:");
+
+        lblApodo.setFont(new java.awt.Font("Liberation Sans", 3, 18)); // NOI18N
+        lblApodo.setText("Apodo:");
+
+        lblTipo.setFont(new java.awt.Font("Liberation Sans", 3, 18)); // NOI18N
+        lblTipo.setText("Tipo:");
+
+        lblAltura.setFont(new java.awt.Font("Liberation Sans", 3, 18)); // NOI18N
+        lblAltura.setText("Altura:");
+
+        lblPeso.setFont(new java.awt.Font("Liberation Sans", 3, 18)); // NOI18N
+        lblPeso.setText("Peso: ");
+
+        lblPuntajeCombate.setFont(new java.awt.Font("Liberation Sans", 3, 18)); // NOI18N
+        lblPuntajeCombate.setText("Puntaje de batalla:");
+
+        lblCiudad.setFont(new java.awt.Font("Liberation Sans", 3, 18)); // NOI18N
+        lblCiudad.setText("Ciudad:");
+
+        lblDescripcion.setFont(new java.awt.Font("Liberation Sans", 3, 18)); // NOI18N
+        lblDescripcion.setText("Descripcion:");
+
+        lblEntrenador.setFont(new java.awt.Font("Liberation Sans", 3, 18)); // NOI18N
+        lblEntrenador.setText("Entrenador:");
+
+        cmbEntrenadores.setFont(new java.awt.Font("Liberation Sans", 2, 14)); // NOI18N
+
+        lblGenero.setFont(new java.awt.Font("Liberation Sans", 3, 18)); // NOI18N
+        lblGenero.setText("Genero:");
+
+        cmbGeneros.setFont(new java.awt.Font("Liberation Sans", 2, 14)); // NOI18N
+
+        jLabel1.setFont(new java.awt.Font("Liberation Sans", 3, 18)); // NOI18N
+        jLabel1.setText("Habilidad Principal:");
+
+        txtHabilidadPrincipal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtHabilidadPrincipalActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Liberation Sans", 3, 18)); // NOI18N
+        jLabel2.setText("Habilidad Secundaria:");
+
+        txtHabilidadSecundaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtHabilidadSecundariaActionPerformed(evt);
             }
         });
 
@@ -79,50 +195,119 @@ public class PotromonForm extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(320, Short.MAX_VALUE)
-                .addComponent(btnOk)
-                .addGap(31, 31, 31))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtNombre)
-                    .addComponent(txtApodo)
-                    .addComponent(txtGenero)
-                    .addComponent(txtTipo)
-                    .addComponent(txtAltura)
-                    .addComponent(txtPeso)
-                    .addComponent(txtPuntajeBatalla)
-                    .addComponent(txtCiudad)
-                    .addComponent(txtDescripcion)
-                    .addComponent(txtEntrenador, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblApodo)
+                            .addComponent(txtApodo, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblTipo)
+                            .addComponent(lblAltura)
+                            .addComponent(txtAltura, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblNombre)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtHabilidadPrincipal)
+                                .addComponent(txtTipo, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                                .addComponent(lblPeso, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtPeso, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                                .addComponent(lblPuntajeCombate, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtPuntajeBatalla, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(96, 96, 96)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblDescripcion)
+                                    .addComponent(lblCiudad))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtDescripcion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblGenero)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(cmbGeneros, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lblEntrenador)
+                                                    .addComponent(cmbEntrenadores, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jLabel2))))
+                                        .addGap(60, 60, 60))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(btnOk)
+                                        .addGap(20, 20, 20))
+                                    .addComponent(txtHabilidadSecundaria, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNombre)
+                    .addComponent(lblCiudad))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtApodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblApodo)
+                    .addComponent(lblDescripcion))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtApodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblTipo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblGenero)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbGeneros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblAltura)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtAltura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtAltura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblPeso))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblEntrenador)
+                        .addGap(18, 18, 18)
+                        .addComponent(cmbEntrenadores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPuntajeCombate)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtPuntajeBatalla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addComponent(btnOk)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPuntajeBatalla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtHabilidadSecundaria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(btnOk))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtHabilidadPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -130,26 +315,74 @@ public class PotromonForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
-        // TODO add your handling code here:
-        try{
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
 
-            if(fileChooser.showOpenDialog(this)==JFileChooser.APPROVE_OPTION){
-                File file = fileChooser.getSelectedFile();
-                byte fileBytes[] = Files.readAllBytes(file.toPath());
-                String content = new String(fileBytes,StandardCharsets.UTF_8);
+        String nombre = txtNombre.getText();
+        String apodo = txtApodo.getText();
+        String tipo = txtTipo.getText();
+        double altura = Double.parseDouble(txtAltura.getText());
+        double peso = Double.parseDouble(txtPeso.getText());
+        int puntajeBatalla = Integer.parseInt(txtPuntajeBatalla.getText());
+        String habilidadPrincipal = txtHabilidadPrincipal.getText();
+        String habilidadSecundaria = txtHabilidadSecundaria.getText();
+        String ciudad = txtCiudad.getText();
+        String descripcion = txtDescripcion.getText();
 
-                Potromon potromon = new Potromon().deserialize(content);
-    }                                        
-        }catch(Exception ex){
-            System.err.println("Ocurrió un error" + ex.getMessage());
+        Entrenador entrenadorSeleccionado = (Entrenador) cmbEntrenadores.getSelectedItem();
+        Genero generoSeleccionado = (Genero) cmbGeneros.getSelectedItem();
+
+        int idEntrenador = entrenadorSeleccionado.getId();
+        int idGenero = generoSeleccionado.getId();
+
+        boolean resultado;
+
+        if (modoEditar) {
+            Potromon potromonExistente = Potromon.getById(id);
+            if (potromonExistente != null) {
+                int nuevoPuntaje = potromonExistente.getPuntajeBatalla() + puntajeBatalla;
+
+                resultado = Potromon.edit(id, nombre, apodo, idGenero, tipo, altura, peso, 
+                                          nuevoPuntaje, habilidadPrincipal, habilidadSecundaria, 
+                                          ciudad, descripcion); 
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró el Potromon a editar.", 
+                                              "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } else {
+            resultado = Potromon.save(nombre, apodo, idGenero, tipo, altura, peso, 
+                                      puntajeBatalla, habilidadPrincipal, habilidadSecundaria, 
+                                      ciudad, descripcion, idEntrenador);
+        }
+
+        if (resultado) {
+            JOptionPane.showMessageDialog(this, "El registro se guardó correctamente", 
+                                          "Registro guardado", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Ocurrió un error al intentar guardar el registro", 
+                                          "Error al guardar", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnOkActionPerformed
 
     private void txtApodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApodoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtApodoActionPerformed
+
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void txtPuntajeBatallaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPuntajeBatallaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPuntajeBatallaActionPerformed
+
+    private void txtHabilidadPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHabilidadPrincipalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHabilidadPrincipalActionPerformed
+
+    private void txtHabilidadSecundariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHabilidadSecundariaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHabilidadSecundariaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -195,12 +428,26 @@ public class PotromonForm extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOk;
+    private javax.swing.JComboBox<String> cmbEntrenadores;
+    private javax.swing.JComboBox<String> cmbGeneros;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblAltura;
+    private javax.swing.JLabel lblApodo;
+    private javax.swing.JLabel lblCiudad;
+    private javax.swing.JLabel lblDescripcion;
+    private javax.swing.JLabel lblEntrenador;
+    private javax.swing.JLabel lblGenero;
+    private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblPeso;
+    private javax.swing.JLabel lblPuntajeCombate;
+    private javax.swing.JLabel lblTipo;
     private javax.swing.JTextField txtAltura;
     private javax.swing.JTextField txtApodo;
     private javax.swing.JTextField txtCiudad;
     private javax.swing.JTextField txtDescripcion;
-    private javax.swing.JTextField txtEntrenador;
-    private javax.swing.JTextField txtGenero;
+    private javax.swing.JTextField txtHabilidadPrincipal;
+    private javax.swing.JTextField txtHabilidadSecundaria;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPeso;
     private javax.swing.JTextField txtPuntajeBatalla;

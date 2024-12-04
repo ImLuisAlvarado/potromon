@@ -37,6 +37,7 @@ public class PotromonListado extends javax.swing.JFrame {
         btnInformacion = new javax.swing.JButton();
         buttonEliminar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
+        btnEntrenadores = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -53,10 +54,14 @@ public class PotromonListado extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Apodo", "Genero", "Tipo", "Puntaje", "Entrenador"
+                "ID", "Nombre", "Apodo", "Tipo", "Habilidad Principal", "Puntaje", "Entrenador"
             }
         ));
         jScrollPane1.setViewportView(tblPotromones);
+        if (tblPotromones.getColumnModel().getColumnCount() > 0) {
+            tblPotromones.getColumnModel().getColumn(4).setPreferredWidth(220);
+            tblPotromones.getColumnModel().getColumn(6).setPreferredWidth(140);
+        }
 
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -66,6 +71,11 @@ public class PotromonListado extends javax.swing.JFrame {
         });
 
         btnInformacion.setText("Más información...");
+        btnInformacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInformacionActionPerformed(evt);
+            }
+        });
 
         buttonEliminar.setText("Eliminar");
         buttonEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -81,26 +91,32 @@ public class PotromonListado extends javax.swing.JFrame {
             }
         });
 
+        btnEntrenadores.setText("Entrenadores");
+        btnEntrenadores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEntrenadoresActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(234, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(buttonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAgregar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnInformacion)
-                        .addGap(29, 29, 29))))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(btnEntrenadores)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                .addComponent(btnAgregar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buttonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(btnInformacion)
+                .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -112,7 +128,8 @@ public class PotromonListado extends javax.swing.JFrame {
                     .addComponent(btnInformacion)
                     .addComponent(btnAgregar)
                     .addComponent(buttonEliminar)
-                    .addComponent(btnEditar))
+                    .addComponent(btnEditar)
+                    .addComponent(btnEntrenadores))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -200,22 +217,47 @@ public class PotromonListado extends javax.swing.JFrame {
         cargarTable();
     }//GEN-LAST:event_btnEditarActionPerformed
 
-    private void cargarTable(){
-        List<Potromon> potromones = Potromon.getAll();
-        DefaultTableModel modeloTabla = (DefaultTableModel)tblPotromones.getModel();
-        modeloTabla.setRowCount(0);
-        for(Potromon p : potromones) {
-            modeloTabla.addRow(new Object[] {
-                p.getId(),
-                p.getNombre(),
-                p.getApodo(),
-                p.getGenero(),
-                p.getTipo(),
-                p.getPuntajeBatalla(),
-                p.getEntrenador()
-            });
+    private void btnInformacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformacionActionPerformed
+    int selectedRow = tblPotromones.getSelectedRow();
+        if (selectedRow != -1) {
+            int idPotromon = Integer.parseInt(tblPotromones.getModel().getValueAt(selectedRow, 0).toString()); // Solo el ID
+            Potromon potromon = Potromon.findById(idPotromon); // Buscar el objeto Potromon por ID
+            if (potromon != null) {
+                // Ahora puedes abrir la ventana de información con el objeto Potromon
+                InfoPotromon info = new InfoPotromon(this, true, potromon);
+                info.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró el Potromon.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un Potromon.");
         }
+
+    }//GEN-LAST:event_btnInformacionActionPerformed
+
+    private void btnEntrenadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrenadoresActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEntrenadoresActionPerformed
+
+    
+    
+    
+    private void cargarTable() {
+    List<Potromon> potromones = Potromon.getAll(); // Obtener la lista de Potromones
+    DefaultTableModel modeloTabla = (DefaultTableModel) tblPotromones.getModel();
+    modeloTabla.setRowCount(0); // Limpiar la tabla antes de llenarla
+    for (Potromon p : potromones) {
+        modeloTabla.addRow(new Object[]{
+            p.getId(),
+            p.getNombre(),
+            p.getApodo(),
+            p.getTipo(),
+            p.getHabilidadPrincipal(),
+            p.getPuntajeBatalla(),
+            p.getEntrenador()
+        });
     }
+}
     
     
     
@@ -257,6 +299,7 @@ public class PotromonListado extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnEntrenadores;
     private javax.swing.JButton btnInformacion;
     private javax.swing.JButton buttonEliminar;
     private javax.swing.JScrollPane jScrollPane1;
